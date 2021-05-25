@@ -8,7 +8,7 @@ public class Levantable : MonoBehaviour
     public int Escena;
     public bool Impacto = false;
     public float Deteccion = 0.5f;
-    public GameObject zona;
+    //public GameObject zona;
     public GameObject objeto;
     //public Transform posicion;
     public Vector3 puntoAgarre;
@@ -23,12 +23,19 @@ public class Levantable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (Impacto == false && transform.childCount >= 1){
+            GetComponentInChildren<Rigidbody>().useGravity = true;
+            GetComponentInChildren<Rigidbody>().isKinematic = false;
+            GetComponentInChildren<Rigidbody>().freezeRotation = false;
+            GetComponentInChildren<Transform>().SetParent(null);
+        }
         RaycastHit cuboX;
         bool Agarre = Physics.Raycast(transform.position, transform.forward, out cuboX, Deteccion);
 
         puntoAgarre = transform.position + (transform.forward * Deteccion);
 
-        zona.transform.position = puntoAgarre;
+       // zona.transform.position = puntoAgarre;
 
         if (Agarre == true){
             if (cuboX.transform.tag != "Zona"){
@@ -91,8 +98,9 @@ public class Levantable : MonoBehaviour
                 SceneManager.LoadScene(Escena);
             }
             else{
-                other.transform.SetParent(zona.transform);
+                other.transform.SetParent(transform);
                 other.GetComponent<Rigidbody>().useGravity = false;
+                other.GetComponent<Rigidbody>().isKinematic = true;
                 other.GetComponent<Rigidbody>().freezeRotation = true;
                 //objeto.transform.position = puntoAgarre;
                 
@@ -100,6 +108,7 @@ public class Levantable : MonoBehaviour
         }
         else if (other.CompareTag("Suelo") != true){
             other.GetComponent<Rigidbody>().useGravity = true;
+            other.GetComponent<Rigidbody>().isKinematic = false;
             other.GetComponent<Rigidbody>().freezeRotation = false;
             other.transform.SetParent(null);
 

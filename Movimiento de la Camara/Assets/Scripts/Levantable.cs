@@ -25,10 +25,12 @@ public class Levantable : MonoBehaviour
     {
         
         if (Impacto == false && transform.childCount >= 1){
-            GetComponentInChildren<Rigidbody>().useGravity = true;
-            GetComponentInChildren<Rigidbody>().isKinematic = false;
-            GetComponentInChildren<Rigidbody>().freezeRotation = false;
-            GetComponentInChildren<Transform>().SetParent(null);
+            if(GetComponentInChildren<Transform>().name != "Zona Agarre") {
+                GetComponentInChildren<Rigidbody>().useGravity = true;
+                GetComponentInChildren<Rigidbody>().isKinematic = false;
+                GetComponentInChildren<Rigidbody>().freezeRotation = false;
+                GetComponentInChildren<Transform>().SetParent(null);
+            }
         }
         RaycastHit cuboX;
         bool Agarre = Physics.Raycast(transform.position, transform.forward, out cuboX, Deteccion);
@@ -97,7 +99,7 @@ public class Levantable : MonoBehaviour
             else if (other.CompareTag("Next")){
                 SceneManager.LoadScene(Escena);
             }
-            else{
+            else if (transform.childCount < 2){
                 other.transform.SetParent(transform);
                 other.GetComponent<Rigidbody>().useGravity = false;
                 other.GetComponent<Rigidbody>().isKinematic = true;
@@ -117,11 +119,11 @@ public class Levantable : MonoBehaviour
     
 
     void OnTriggerExit(Collider other){
-        if (other.transform.name == objeto.transform.name){
+        //if (other.transform.name == objeto.transform.name){
             //Debug.Log(other.transform.name);
             Impacto = false;
             objeto = null;
-        }
+        //}
     }
 
     void OnDrawGizmos(){

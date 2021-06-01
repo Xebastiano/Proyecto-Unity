@@ -105,7 +105,6 @@ public class Levantable : MonoBehaviour
                 other.GetComponent<Rigidbody>().isKinematic = true;
                 other.GetComponent<Rigidbody>().freezeRotation = true;
                 //objeto.transform.position = puntoAgarre;
-                
             }
         }
         else if (other.CompareTag("Suelo") != true){
@@ -113,10 +112,8 @@ public class Levantable : MonoBehaviour
             other.GetComponent<Rigidbody>().isKinematic = false;
             other.GetComponent<Rigidbody>().freezeRotation = false;
             other.transform.SetParent(null);
-
         }
     }
-    
 
     void OnTriggerExit(Collider other){
         //if (other.transform.name == objeto.transform.name){

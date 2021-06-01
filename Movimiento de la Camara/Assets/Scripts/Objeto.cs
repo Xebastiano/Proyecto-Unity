@@ -18,8 +18,9 @@ public class Objeto : MonoBehaviour
     {
         Vector3 vertical = Vector3.forward * EjeVertical();
         Vector3 horizontal = Vector3.up * Input.GetAxis("Mouse X");
+        Vector3 derecha_izquierda = Vector3.right * EjeHorizontal();
 
-        transform.Translate(vertical * velocidad * Time.deltaTime);
+        transform.Translate((vertical + derecha_izquierda) * velocidad * Time.deltaTime);
         transform.Rotate(horizontal * velRotacion * Time.deltaTime);
     }
 
@@ -36,5 +37,19 @@ public class Objeto : MonoBehaviour
         }
 
         return arriba - abajo;
+    }
+
+    int EjeHorizontal(){
+        int derecha = 0, izquierda = 0;
+        if (Input.GetKey(KeyCode.D))
+        {
+            derecha = 1;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            izquierda = 1;
+        }
+
+        return derecha - izquierda;
     }
 }
